@@ -1,6 +1,7 @@
 import { useCountUp } from '../hooks/useCountUp';
 import { useEffect, useState, useRef } from 'react';
 import { heroStats } from '../data/pocData';
+import ParticleBurst from './ParticleBurst/ParticleBurst';
 
 function TypingHeadline({ onDone }: { onDone: () => void }) {
   const lines = ['Explored.', 'Proven.', 'Launched.'];
@@ -129,6 +130,9 @@ export default function HeroSection() {
       id="hero"
       className="bg-white text-gray-900 pt-24 pb-16 px-6 lg:px-24 relative overflow-hidden border-b border-gray-100 mt-[72px]"
     >
+      {/* Particle burst background */}
+      <ParticleBurst />
+
       {/* Decorative blurs */}
       <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-secondary rounded-full blur-3xl" />
