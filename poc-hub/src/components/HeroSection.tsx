@@ -17,8 +17,9 @@ function TypingHeadline({ onDone }: { onDone: () => void }) {
   const onDoneRef = useRef(onDone);
   onDoneRef.current = onDone;
 
-  // Blink cursor
+  // Blink cursor only while typing
   useEffect(() => {
+    if (stateRef.current.done) return;
     const id = setInterval(() => setShowCursor((v) => !v), 530);
     return () => clearInterval(id);
   }, []);
@@ -49,7 +50,7 @@ function TypingHeadline({ onDone }: { onDone: () => void }) {
       s.lastTick = now;
 
       const line = lines[s.currentLine];
-      if (!line) { s.done = true; onDoneRef.current(); forceUpdate((n) => n + 1); return; }
+      if (!line) { s.done = true; onDoneRef.current(); forceUpdate((n) => n + 1); setShowCursor(false); return; }
 
       s.currentChar++;
       if (s.currentChar > line.length) {
@@ -63,6 +64,7 @@ function TypingHeadline({ onDone }: { onDone: () => void }) {
         } else {
           s.done = true;
           onDoneRef.current();
+          setShowCursor(false);
         }
         forceUpdate((n) => n + 1);
         rafId = requestAnimationFrame(tick);
@@ -98,13 +100,7 @@ function TypingHeadline({ onDone }: { onDone: () => void }) {
               style={{ opacity: showCursor ? 1 : 0, transition: 'opacity 0.1s' }}
             />
           )}
-          {/* Keep cursor at end when done */}
-          {s.done && i === lines.length - 1 && (
-            <span
-              className="inline-block w-[3px] h-[0.85em] bg-black align-middle ml-0.5 rounded-sm translate-y-[0.05em]"
-              style={{ opacity: showCursor ? 1 : 0, transition: 'opacity 0.1s' }}
-            />
-          )}
+
         </span>
       ))}
     </h1>
