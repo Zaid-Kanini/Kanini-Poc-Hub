@@ -4,6 +4,8 @@ import HeroSection from '../components/HeroSection';
 import SearchFilterBar from '../components/SearchFilterBar';
 import PocCard from '../components/PocCard';
 import FeaturedPoc from '../components/FeaturedPoc';
+import PropelIQIntro from '../components/PropelIQIntro';
+import AiIdeSection from '../components/AiIdeSection';
 import StatsStrip from '../components/StatsStrip';
 import LogoMarquee from '../components/LogoMarquee';
 import Footer from '../components/Footer';
@@ -60,6 +62,8 @@ export default function PortalPage() {
       </section>
 
       <FeaturedPoc />
+      <PropelIQIntro />
+      <AiIdeSection />
       <StatsStrip />
       <LogoMarquee />
       <Footer />
