@@ -1,15 +1,28 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../api/auth';
 const KANINI_LOGO = 'https://kanini.com/wp-content/uploads/2022/06/Kanini-Logo.svg';
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.trim()) return;
     setLoading(true);
-    setTimeout(() => navigate('/portal'), 1200);
+    setError('');
+    try {
+      const data = await login(email);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      navigate('/portal');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed');
+      setLoading(false);
+    }
   };
 
   const statPills = [
@@ -78,7 +91,7 @@ export default function LoginPage() {
 
           <div className="mb-10">
             <h2 className="text-3xl font-bold text-black mb-2">Sign In</h2>
-            <p className="text-slate-500 font-medium">Please enter your internal credentials</p>
+            <p className="text-slate-500 font-medium">Enter your work email to continue</p>
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -92,38 +105,15 @@ export default function LoginPage() {
                 id="email"
                 placeholder="name@company.com"
                 type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
-            {/* Password */}
-            <div>
-              <div className="flex justify-between mb-2">
-                <label className="block text-sm font-semibold text-black" htmlFor="password">
-                  Password
-                </label>
-                <a className="text-sm font-semibold text-secondary hover:underline" href="#">
-                  Forgot password?
-                </a>
-              </div>
-              <input
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none transition-all placeholder:text-slate-400 focus:border-teal focus:shadow-[0_0_0_3px_rgba(0,181,173,0.15)]"
-                id="password"
-                placeholder="••••••••"
-                type="password"
-              />
-            </div>
-
-            {/* Remember */}
-            <div className="flex items-center">
-              <input
-                className="h-4 w-4 text-secondary focus:ring-secondary border-slate-300 rounded"
-                id="remember-me"
-                type="checkbox"
-              />
-              <label className="ml-2 block text-sm text-slate-600 font-medium" htmlFor="remember-me">
-                Remember me for 30 days
-              </label>
-            </div>
+            {error && (
+              <p className="text-red-500 text-sm font-medium">{error}</p>
+            )}
 
             {/* Submit */}
             <button
@@ -141,31 +131,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Divider */}
-          <div className="relative my-8">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200" />
-            </div>
-            <div className="relative flex justify-center text-sm uppercase">
-              <span className="bg-white px-4 text-slate-400 font-bold tracking-widest">Or</span>
-            </div>
-          </div>
-
-          {/* Microsoft SSO */}
-          <button
-            type="button"
-            className="btn-press w-full bg-white border border-slate-200 hover:bg-slate-50 text-black font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-3"
-          >
-            <svg className="w-5 h-5" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 0h23v23H0z" fill="#f3f3f3" />
-              <path d="M1 1h10v10H1z" fill="#f35325" />
-              <path d="M12 1h10v10H12z" fill="#81bc06" />
-              <path d="M1 12h10v10H1z" fill="#05a6f0" />
-              <path d="M12 12h10v10H12z" fill="#ffba08" />
-            </svg>
-            <span>Sign in with Microsoft</span>
-          </button>
 
           <div className="mt-12 text-center">
             <p className="text-sm text-slate-400">

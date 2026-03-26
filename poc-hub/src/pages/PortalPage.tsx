@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import SearchFilterBar from '../components/SearchFilterBar';
@@ -9,26 +9,30 @@ import AiIdeSection from '../components/AiIdeSection';
 import StatsStrip from '../components/StatsStrip';
 import LogoMarquee from '../components/LogoMarquee';
 import Footer from '../components/Footer';
-import { pocData } from '../data/pocData';
+import type { PocItem } from '../data/pocData';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { getPocs, getCategories } from '../api/pocs';
 
 export default function PortalPage() {
   const [activeFilter, setActiveFilter] = useState('All POCs');
   const [searchQuery, setSearchQuery] = useState('');
+  const [pocs, setPocs] = useState<PocItem[]>([]);
+  const [categories, setCategories] = useState<string[]>(['All POCs']);
   const scrollRef = useScrollAnimation();
 
-  const filtered = useMemo(() => {
-    return pocData.filter((poc) => {
-      const matchesFilter =
-        activeFilter === 'All POCs' || poc.domain === activeFilter;
-      const matchesSearch =
-        !searchQuery ||
-        poc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        poc.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        poc.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
-      return matchesFilter && matchesSearch;
-    });
+  const fetchPocs = useCallback(async () => {
+    try {
+      const data = await getPocs({ domain: activeFilter, search: searchQuery });
+      console.log('POCs fetched:', data);
+      setPocs(data);
+    } catch (err) { console.error('POC fetch error:', err); }
   }, [activeFilter, searchQuery]);
+
+  useEffect(() => { fetchPocs(); }, [fetchPocs]);
+
+  useEffect(() => {
+    getCategories().then(setCategories).catch((err) => console.error('Categories fetch error:', err));
+  }, []);
 
   return (
     <div ref={scrollRef} className="min-h-screen bg-white">
@@ -39,6 +43,7 @@ export default function PortalPage() {
         onFilterChange={setActiveFilter}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        categories={categories}
       />
 
       {/* POC Grid */}
@@ -50,10 +55,10 @@ export default function PortalPage() {
           </a>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filtered.map((poc, i) => (
+          {pocs.map((poc, i) => (
             <PocCard key={poc.id} poc={poc} index={i} />
           ))}
-          {filtered.length === 0 && (
+          {pocs.length === 0 && (
             <p className="col-span-full text-center text-gray-400 py-20">
               No POCs match your search.
             </p>

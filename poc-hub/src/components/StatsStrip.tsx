@@ -1,5 +1,6 @@
 import { useCountUp } from '../hooks/useCountUp';
-import { globalStats } from '../data/pocData';
+import { useEffect, useState } from 'react';
+import { getGlobalStats } from '../api/stats';
 
 function StatItem({
   value,
@@ -28,6 +29,12 @@ function StatItem({
 }
 
 export default function StatsStrip() {
+  const [globalStats, setGlobalStats] = useState<{ value: number; label: string; prefix: string; suffix: string }[]>([]);
+
+  useEffect(() => {
+    getGlobalStats().then(setGlobalStats).catch(() => {});
+  }, []);
+
   return (
     <section id="stats" className="bg-bg-alt py-16 px-6 lg:px-20">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-12">

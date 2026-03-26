@@ -1,6 +1,23 @@
-import { featuredPoc } from '../data/pocData';
+import { useEffect, useState } from 'react';
+import { getFeaturedPoc } from '../api/stats';
+
+interface FeaturedPocData {
+  title: string;
+  subtitle: string;
+  description: string;
+  deploymentStatus: string;
+  stats: { value: string; label: string }[];
+}
 
 export default function FeaturedPoc() {
+  const [featuredPoc, setFeaturedPoc] = useState<FeaturedPocData | null>(null);
+
+  useEffect(() => {
+    getFeaturedPoc().then(setFeaturedPoc).catch(() => {});
+  }, []);
+
+  if (!featuredPoc) return null;
+
   return (
     <section
       id="featured"

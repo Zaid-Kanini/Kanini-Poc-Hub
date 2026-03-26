@@ -1,6 +1,15 @@
-import { partnerLogos } from '../data/pocData';
+import { useEffect, useState } from 'react';
+import { getPartners } from '../api/stats';
 
 export default function LogoMarquee() {
+  const [partnerLogos, setPartnerLogos] = useState<string[]>([]);
+
+  useEffect(() => {
+    getPartners()
+      .then((partners) => setPartnerLogos(partners.map((p) => p.name)))
+      .catch(() => {});
+  }, []);
+
   // Double the list for seamless infinite scroll
   const doubled = [...partnerLogos, ...partnerLogos];
 
