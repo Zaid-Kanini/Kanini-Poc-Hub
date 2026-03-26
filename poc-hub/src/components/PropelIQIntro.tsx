@@ -70,7 +70,7 @@ export default function PropelIQIntro() {
             fontSize: 'clamp(1rem, 4vw, 3.2rem)',
             fontWeight: 700,
             lineHeight: 1.25,
-            color: '#0f0f0f',
+            color: '#374151',
             letterSpacing: '-0.02em',
           }}
         >
