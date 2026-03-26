@@ -369,6 +369,56 @@ input.bg-transparent {
   }
 }
 
+/* ========== AI IDE Section ========== */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes ai-ide-spin-border {
+  to { --angle: 360deg; }
+}
+
+@keyframes ai-ide-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+@keyframes ai-ide-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes ai-ide-rotate-glow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes ai-ide-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.ai-ide-video-card {
+  position: relative;
+  z-index: 1;
+  border-radius: 20px;
+  padding: 3px;
+  background: conic-gradient(
+    from var(--angle, 0deg) at 50% 50%,
+    #4ade80,
+    #60a5fa,
+    #f472b6,
+    #fb923c,
+    #4ade80
+  );
+  animation: ai-ide-spin-border 4s linear infinite;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+    0 24px 64px rgba(0, 0, 0, 0.12);
+}
+
 /* ========== Scrollbar Styling ========== */
 ::-webkit-scrollbar {
   width: 6px;
