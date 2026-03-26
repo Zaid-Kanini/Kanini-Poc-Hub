@@ -11,25 +11,40 @@ export function useScrollAnimation(rootMargin = '0px 0px -80px 0px') {
     const container = containerRef.current;
     if (!container) return;
 
-    const elements = container.querySelectorAll(
-      '.animate-on-scroll, .slide-from-left, .slide-from-right'
-    );
+    const selector = '.animate-on-scroll, .slide-from-left, .slide-from-right';
+    const observed = new WeakSet<Element>();
 
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
+            io.unobserve(entry.target);
           }
         });
       },
       { rootMargin, threshold: 0.1 }
     );
 
-    elements.forEach((el) => observer.observe(el));
+    function observeAll() {
+      container!.querySelectorAll(selector).forEach((el) => {
+        if (!observed.has(el)) {
+          observed.add(el);
+          io.observe(el);
+        }
+      });
+    }
 
-    return () => observer.disconnect();
+    observeAll();
+
+    // Watch for dynamically added elements (e.g. async-loaded POC cards)
+    const mo = new MutationObserver(() => observeAll());
+    mo.observe(container, { childList: true, subtree: true });
+
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+    };
   }, [rootMargin]);
 
   return containerRef;

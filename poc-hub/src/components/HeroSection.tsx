@@ -1,6 +1,6 @@
 import { useCountUp } from '../hooks/useCountUp';
 import { useEffect, useState, useRef } from 'react';
-import { heroStats } from '../data/pocData';
+import { getHeroStats } from '../api/stats';
 import ParticleBurst from './ParticleBurst/ParticleBurst';
 
 function TypingHeadline({ onDone }: { onDone: () => void }) {
@@ -124,6 +124,11 @@ function HeroStat({ value, label }: { value: number; label: string }) {
 
 export default function HeroSection() {
   const [typingDone, setTypingDone] = useState(false);
+  const [heroStats, setHeroStats] = useState<{ value: number; label: string }[]>([]);
+
+  useEffect(() => {
+    getHeroStats().then(setHeroStats).catch(() => {});
+  }, []);
 
   return (
     <section

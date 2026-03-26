@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { categories } from '../data/pocData';
 
 interface Props {
   activeFilter: string;
   onFilterChange: (filter: string) => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
+  categories: string[];
 }
 
 export default function SearchFilterBar({
@@ -13,6 +13,7 @@ export default function SearchFilterBar({
   onFilterChange,
   searchQuery,
   onSearchChange,
+  categories,
 }: Props) {
   const [focused, setFocused] = useState(false);
 
