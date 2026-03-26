@@ -4,9 +4,28 @@ const text = 'Built for teams to automate and follow the entire SDLC with high-l
 
 export default function PropelIQIntro() {
   const [typedText, setTypedText] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
   const charIdx = useRef(0);
+  const sectionRef = useRef<HTMLElement>(null);
 
+  // Detect when section scrolls into view
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // Start typing only when visible
+  useEffect(() => {
+    if (!isVisible) return;
     let rafId: number;
     let lastTime = 0;
     const speed = 35;
@@ -27,31 +46,32 @@ export default function PropelIQIntro() {
 
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
-  }, []);
+  }, [isVisible]);
 
   return (
-    <section className="py-16 px-6 lg:px-20 text-center" style={{ background: '#ffffff' }}>
-      <div className="max-w-4xl mx-auto">
-        <h2
+    <section ref={sectionRef} className="py-16 px-6 lg:px-20" style={{ background: '#ffffff' }}>
+      <div className="max-w-5xl">
+        <p
           className="mb-4"
           style={{
             fontFamily: "'Poppins', sans-serif",
-            fontSize: 'clamp(2rem, 3.5vw, 2.8rem)',
+            fontSize: 'clamp(4rem, 4vw, 3.2rem)',
             fontWeight: 700,
-            color: '#0f0f0f',
-            letterSpacing: '-0.01em',
+            color: 'black',
+            letterSpacing: '0.01em',
           }}
         >
-          Introducing PropelIQ
-        </h2>
+          Introducing Propel
+        </p>
         <p
           className="min-h-[2em]"
           style={{
             fontFamily: "'Poppins', sans-serif",
-            fontSize: 'clamp(1rem, 1.8vw, 1.25rem)',
-            fontWeight: 400,
-            lineHeight: 1.6,
-            color: '#4a4a4a',
+            fontSize: 'clamp(1rem, 4vw, 3.2rem)',
+            fontWeight: 700,
+            lineHeight: 1.25,
+            color: '#0f0f0f',
+            letterSpacing: '-0.02em',
           }}
         >
           {typedText}
