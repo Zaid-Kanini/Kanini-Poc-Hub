@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getFeaturedPoc } from '../api/stats';
-
+import { useNavigate } from 'react-router-dom';
 interface FeaturedPocData {
+  pocId: number | null;
   title: string;
   subtitle: string;
   description: string;
@@ -11,7 +12,7 @@ interface FeaturedPocData {
 
 export default function FeaturedPoc() {
   const [featuredPoc, setFeaturedPoc] = useState<FeaturedPocData | null>(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     getFeaturedPoc().then(setFeaturedPoc).catch(() => {});
   }, []);
@@ -40,7 +41,7 @@ export default function FeaturedPoc() {
           ))}
         </div>
 
-        <button className="btn-press bg-black text-white px-8 py-3 rounded-xl font-bold hover:bg-gray-800 transition-all">
+        <button onClick={() => featuredPoc.pocId && navigate(`/poc/${featuredPoc.pocId}`)} className="btn-press bg-black text-white px-8 py-3 rounded-xl font-bold hover:bg-gray-800 transition-all">
           Explore Implementation
         </button>
       </div>

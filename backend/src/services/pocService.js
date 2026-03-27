@@ -38,7 +38,8 @@ export async function getPocs({ domain, search, status } = {}) {
   const { rows } = await query(
     `SELECT
        p.id, p.title, p.description, p.icon,
-       p.status, p.created_at, p.updated_at,
+       p.status, p.github_url, p.application_url,
+       p.created_at, p.updated_at,
        d.name  AS domain,
        tm.name AS team,
        COALESCE(
@@ -61,7 +62,8 @@ export async function getPocById(id) {
   const { rows } = await query(
     `SELECT
        p.id, p.title, p.description, p.icon,
-       p.status, p.created_at, p.updated_at,
+       p.status, p.github_url, p.application_url,
+       p.created_at, p.updated_at,
        d.name  AS domain,
        tm.name AS team,
        COALESCE(

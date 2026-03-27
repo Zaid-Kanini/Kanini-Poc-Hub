@@ -49,15 +49,17 @@ CREATE TABLE IF NOT EXISTS tags (
 
 -- ---- POCs ----
 CREATE TABLE IF NOT EXISTS pocs (
-  id          SERIAL PRIMARY KEY,
-  title       VARCHAR(255) NOT NULL,
-  description TEXT NOT NULL,
-  icon        VARCHAR(100) NOT NULL DEFAULT 'science',
-  status      poc_status NOT NULL DEFAULT 'Ideation',
-  domain_id   INT NOT NULL REFERENCES domains(id),
-  team_id     INT NOT NULL REFERENCES teams(id),
-  created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+  id              SERIAL PRIMARY KEY,
+  title           VARCHAR(255) NOT NULL,
+  description     TEXT NOT NULL,
+  icon            VARCHAR(100) NOT NULL DEFAULT 'science',
+  status          poc_status NOT NULL DEFAULT 'Ideation',
+  domain_id       INT NOT NULL REFERENCES domains(id),
+  team_id         INT NOT NULL REFERENCES teams(id),
+  github_url      TEXT,
+  application_url TEXT,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at      TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE INDEX IF NOT EXISTS idx_pocs_domain ON pocs (domain_id);
@@ -116,3 +118,14 @@ CREATE TABLE IF NOT EXISTS partners (
   logo_url   TEXT,
   sort_order INT NOT NULL DEFAULT 0
 );
+
+-- ---- Safe column additions (idempotent) ----
+DO $$ BEGIN
+  ALTER TABLE pocs ADD COLUMN github_url TEXT;
+EXCEPTION WHEN duplicate_column THEN NULL;
+END $$;
+
+DO $$ BEGIN
+  ALTER TABLE pocs ADD COLUMN application_url TEXT;
+EXCEPTION WHEN duplicate_column THEN NULL;
+END $$;
