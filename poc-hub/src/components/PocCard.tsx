@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import type { PocItem, PocStatus } from '../data/pocData';
 
 const statusColors: Record<PocStatus, string> = {
@@ -13,6 +14,12 @@ interface Props {
 }
 
 export default function PocCard({ poc, index }: Props) {
+  const navigate = useNavigate();
+
+  function truncateText(text: string, limit: number = 200): string {
+  if (text.length <= limit) return text;
+  return text.substring(0, limit) + "...";
+}
   return (
     <div
       className="poc-card animate-on-scroll bg-white rounded-2xl p-6 border border-gray-200 shadow-sm flex flex-col"
@@ -32,7 +39,7 @@ export default function PocCard({ poc, index }: Props) {
 
       {/* Body */}
       <h3 className="text-xl font-bold text-black mb-2">{poc.title}</h3>
-      <p className="text-gray-500 text-sm mb-6 flex-grow">{poc.description}</p>
+      <p className="text-gray-500 text-sm mb-6 flex-grow">{truncateText(poc.description)}</p>
 
       {/* Tags */}
       <div className="flex flex-wrap gap-2 mb-6">
@@ -52,7 +59,10 @@ export default function PocCard({ poc, index }: Props) {
           <div className="w-6 h-6 rounded-full bg-gray-200" />
           <span className="text-xs font-medium text-gray-600">{poc.team}</span>
         </div>
-        <button className="text-secondary text-sm font-bold flex items-center gap-1 hover:underline">
+        <button
+          onClick={() => navigate(`/poc/${poc.id}`)}
+          className="text-secondary text-sm font-bold flex items-center gap-1 hover:underline"
+        >
           View Details
           <span className="material-symbols-outlined text-base">chevron_right</span>
         </button>

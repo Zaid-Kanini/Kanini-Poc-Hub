@@ -13,6 +13,7 @@ interface GlobalStat {
 }
 
 interface FeaturedPoc {
+  pocId: number | null;
   title: string;
   subtitle: string;
   description: string;

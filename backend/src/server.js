@@ -17,6 +17,12 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
+// ---------- Request logger ----------
+app.use((req, _res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 // ---------- Health check ----------
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -41,6 +47,7 @@ app.use((err, _req, res, _next) => {
 // ---------- Start ----------
 app.listen(PORT, () => {
   console.log(`Backend running → http://localhost:${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 export default app;

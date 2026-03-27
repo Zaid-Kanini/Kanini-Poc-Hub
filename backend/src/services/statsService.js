@@ -14,7 +14,7 @@ export async function getGlobalStats() {
 
 export async function getFeaturedPoc() {
   const { rows: [featured] } = await query(
-    `SELECT id, title, subtitle, description, deployment_status
+    `SELECT id, poc_id, title, subtitle, description, deployment_status
      FROM featured_pocs
      WHERE active = true
      ORDER BY created_at DESC
@@ -29,6 +29,7 @@ export async function getFeaturedPoc() {
   );
 
   return {
+    pocId: featured.poc_id,
     title: featured.title,
     subtitle: featured.subtitle,
     description: featured.description,

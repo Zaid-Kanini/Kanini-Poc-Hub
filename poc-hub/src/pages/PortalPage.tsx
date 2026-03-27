@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import SearchFilterBar from '../components/SearchFilterBar';
@@ -14,6 +15,7 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { getPocs, getCategories } from '../api/pocs';
 
 export default function PortalPage() {
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('All POCs');
   const [searchQuery, setSearchQuery] = useState('');
   const [pocs, setPocs] = useState<PocItem[]>([]);
@@ -50,7 +52,10 @@ export default function PortalPage() {
       <section id="pocs" className="px-6 lg:px-20 pt-20 pb-16 bg-bg-alt">
         <div className="flex items-center justify-between mb-10">
           <h2 className="text-2xl font-bold text-black">Latest Pilots</h2>
-          <a className="text-secondary font-semibold flex items-center gap-1 hover:underline" href="#">
+          <a
+            className="text-secondary font-semibold flex items-center gap-1 hover:underline cursor-pointer"
+            onClick={() => navigate('/pocs')}
+          >
             View all <span className="material-symbols-outlined text-sm">open_in_new</span>
           </a>
         </div>

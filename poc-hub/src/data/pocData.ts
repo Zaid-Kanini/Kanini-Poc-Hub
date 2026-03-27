@@ -9,117 +9,57 @@ export interface PocItem {
   domain: string;
   tags: string[];
   team: string;
+  github_url?: string | null;
+  application_url?: string | null;
 }
 
 export const pocData: PocItem[] = [
   {
     id: 1,
-    title: 'Predictive Inventory Engine',
+    title: 'Loan Closing & Loan Origination POC',
     description:
-      'AI-driven engine that predicts stock requirements across regional warehouses with 94% accuracy.',
-    icon: 'smart_toy',
+      'This Proof of Concept demonstrates an end-to-end digital workflow for loan origination and closing processes. It showcases how users can initiate loan applications, capture required details, and seamlessly progress through approval and closing stages.',
+    icon: 'account_balance',
     status: 'In Production',
-    domain: 'AI/ML',
-    tags: ['AI/ML', 'Supply Chain'],
-    team: 'Nexus Team',
+    domain: 'FinTech',
+    tags: ['FinTech', 'Loan Processing', 'Workflow Automation'],
+    team: 'Lending Squad',
+    github_url: 'https://github.com/kanini/Loan-Origination-Poc.git',
+    application_url: 'https://temp-repo-ruby-kappa.vercel.app/landing',
   },
   {
     id: 2,
-    title: 'Multi-Cloud Orchestrator',
+    title: 'Dashboard Metrics POC',
     description:
-      'Automated deployment tool for containerized applications across AWS, Azure and GCP environments.',
-    icon: 'cloud_done',
-    status: 'Testing Phase',
-    domain: 'Cloud',
-    tags: ['Cloud', 'DevOps'],
-    team: 'CloudOps Elite',
+      'This POC focuses on building an interactive analytics dashboard that provides real-time insights into key business and operational metrics. It highlights dynamic data visualization, customizable widgets, and performance tracking capabilities.',
+    icon: 'dashboard',
+    status: 'In Production',
+    domain: 'Data Science',
+    tags: ['Analytics', 'Dashboard', 'Data Visualization'],
+    team: 'Metrics Crew',
+    github_url: 'https://github.com/Chaman-Kanini/Dashboard_Metrics',
+    application_url: 'https://dashboard-metrics-liart.vercel.app/',
   },
   {
     id: 3,
-    title: 'Immutable Audit Ledger',
+    title: 'CPP to Web Modernization POC',
     description:
-      'Blockchain-based recording system for internal financial transactions to ensure absolute audit trails.',
-    icon: 'payments',
-    status: 'Ideation',
-    domain: 'Blockchain',
-    tags: ['Blockchain', 'FinTech'],
-    team: 'Ledger Labs',
-  },
-  {
-    id: 4,
-    title: 'Smart Document Parser',
-    description:
-      'NLP-powered extraction pipeline that processes invoices, contracts and reports with 97% field accuracy.',
-    icon: 'description',
+      'This Proof of Concept demonstrates the modernization of legacy C++-based systems into a web-based application. It showcases how core functionalities can be transformed into a responsive, browser-accessible interface while preserving existing business logic.',
+    icon: 'code',
     status: 'In Production',
-    domain: 'AI/ML',
-    tags: ['AI/ML', 'Automation'],
-    team: 'DocFlow Squad',
-  },
-  {
-    id: 5,
-    title: 'Edge IoT Gateway',
-    description:
-      'Low-latency edge computing gateway for collecting and processing sensor data across manufacturing floors.',
-    icon: 'sensors',
-    status: 'Pilot',
-    domain: 'IoT',
-    tags: ['IoT', 'Manufacturing'],
-    team: 'Edge Pioneers',
-  },
-  {
-    id: 6,
-    title: 'Customer Churn Predictor',
-    description:
-      'Machine learning model that identifies at-risk customer accounts 30 days before churn with 89% recall.',
-    icon: 'trending_down',
-    status: 'Testing Phase',
-    domain: 'Data Science',
-    tags: ['Data Science', 'CRM'],
-    team: 'Insight Crew',
-  },
-  {
-    id: 7,
-    title: 'Zero-Trust Access Mesh',
-    description:
-      'Identity-aware micro-segmentation layer that replaces legacy VPN with per-request authentication.',
-    icon: 'shield',
-    status: 'Pilot',
-    domain: 'Cloud',
-    tags: ['Cloud', 'Security'],
-    team: 'SecOps Alpha',
-  },
-  {
-    id: 8,
-    title: 'Real-time Fraud Detector',
-    description:
-      'Streaming analytics engine scoring payment transactions in under 50ms with adaptive threshold tuning.',
-    icon: 'security',
-    status: 'In Production',
-    domain: 'Data Science',
-    tags: ['Data Science', 'FinTech'],
-    team: 'Risk Engine',
-  },
-  {
-    id: 9,
-    title: 'Digital Twin Simulator',
-    description:
-      'Physics-based digital twin of factory floor robots enabling predictive maintenance scheduling.',
-    icon: 'precision_manufacturing',
-    status: 'Ideation',
-    domain: 'IoT',
-    tags: ['IoT', 'Digital Twin'],
-    team: 'Twin Works',
+    domain: 'Modernization',
+    tags: ['Legacy Modernization', 'C++', 'Web'],
+    team: 'Modernization Team',
+    github_url: 'https://github.com/kanini/Cpp_Web_Modernization.git',
+    application_url: 'https://cpp-web-frontend.vercel.app/login',
   },
 ];
 
 export const categories = [
   'All POCs',
-  'AI/ML',
-  'Cloud',
-  'Blockchain',
-  'IoT',
+  'FinTech',
   'Data Science',
+  'Modernization',
 ];
 
 export const heroStats = [

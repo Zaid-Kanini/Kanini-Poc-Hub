@@ -4,41 +4,29 @@
 
 -- ---- Domains ----
 INSERT INTO domains (name) VALUES
-  ('AI/ML'),
-  ('Cloud'),
-  ('Blockchain'),
-  ('IoT'),
-  ('Data Science')
+  ('FinTech'),
+  ('Data Science'),
+  ('Modernization')
 ON CONFLICT (name) DO NOTHING;
 
 -- ---- Tags ----
 INSERT INTO tags (name) VALUES
-  ('AI/ML'),
-  ('Supply Chain'),
-  ('Cloud'),
-  ('DevOps'),
-  ('Blockchain'),
   ('FinTech'),
-  ('Automation'),
-  ('IoT'),
-  ('Manufacturing'),
-  ('Data Science'),
-  ('CRM'),
-  ('Security'),
-  ('Digital Twin')
+  ('Loan Processing'),
+  ('Workflow Automation'),
+  ('Analytics'),
+  ('Dashboard'),
+  ('Data Visualization'),
+  ('Legacy Modernization'),
+  ('C++'),
+  ('Web')
 ON CONFLICT (name) DO NOTHING;
 
 -- ---- Teams ----
 INSERT INTO teams (name) VALUES
-  ('Nexus Team'),
-  ('CloudOps Elite'),
-  ('Ledger Labs'),
-  ('DocFlow Squad'),
-  ('Edge Pioneers'),
-  ('Insight Crew'),
-  ('SecOps Alpha'),
-  ('Risk Engine'),
-  ('Twin Works')
+  ('Lending Squad'),
+  ('Metrics Crew'),
+  ('Modernization Team')
 ON CONFLICT (name) DO NOTHING;
 
 -- ---- Users (sample) ----
@@ -52,160 +40,89 @@ ON CONFLICT (email) DO NOTHING;
 INSERT INTO team_members (team_id, user_id, role)
 SELECT t.id, u.id, 'lead'
 FROM teams t, users u
-WHERE t.name = 'Nexus Team' AND u.email = 'arun.kumar@kanini.com'
+WHERE t.name = 'Lending Squad' AND u.email = 'arun.kumar@kanini.com'
 ON CONFLICT DO NOTHING;
 
 INSERT INTO team_members (team_id, user_id, role)
 SELECT t.id, u.id, 'member'
 FROM teams t, users u
-WHERE t.name = 'CloudOps Elite' AND u.email = 'priya.sharma@kanini.com'
+WHERE t.name = 'Metrics Crew' AND u.email = 'priya.sharma@kanini.com'
+ON CONFLICT DO NOTHING;
+
+INSERT INTO team_members (team_id, user_id, role)
+SELECT t.id, u.id, 'member'
+FROM teams t, users u
+WHERE t.name = 'Modernization Team' AND u.email = 'dev.team@kanini.com'
 ON CONFLICT DO NOTHING;
 
 -- ---- POCs ----
-INSERT INTO pocs (title, description, icon, status, domain_id, team_id) VALUES
+INSERT INTO pocs (title, description, icon, status, domain_id, team_id, github_url, application_url) VALUES
   (
-    'Predictive Inventory Engine',
-    'AI-driven engine that predicts stock requirements across regional warehouses with 94% accuracy.',
-    'smart_toy',
+    'Loan Closing & Loan Origination POC',
+    'This Proof of Concept demonstrates an end-to-end digital workflow for loan origination and closing processes. It showcases how users can initiate loan applications, capture required details, and seamlessly progress through approval and closing stages. The system emphasizes streamlined data entry, workflow automation, and improved user experience, enabling faster processing and reduced manual intervention. It serves as a foundation for modernizing traditional lending systems with scalable, user-friendly interfaces.',
+    'account_balance',
     'In Production',
-    (SELECT id FROM domains WHERE name = 'AI/ML'),
-    (SELECT id FROM teams WHERE name = 'Nexus Team')
+    (SELECT id FROM domains WHERE name = 'FinTech'),
+    (SELECT id FROM teams WHERE name = 'Lending Squad'),
+    'https://github.com/kanini/Loan-Origination-Poc.git',
+    'https://temp-repo-ruby-kappa.vercel.app/landing'
   ),
   (
-    'Multi-Cloud Orchestrator',
-    'Automated deployment tool for containerized applications across AWS, Azure and GCP environments.',
-    'cloud_done',
-    'Testing Phase',
-    (SELECT id FROM domains WHERE name = 'Cloud'),
-    (SELECT id FROM teams WHERE name = 'CloudOps Elite')
-  ),
-  (
-    'Immutable Audit Ledger',
-    'Blockchain-based recording system for internal financial transactions to ensure absolute audit trails.',
-    'payments',
-    'Ideation',
-    (SELECT id FROM domains WHERE name = 'Blockchain'),
-    (SELECT id FROM teams WHERE name = 'Ledger Labs')
-  ),
-  (
-    'Smart Document Parser',
-    'NLP-powered extraction pipeline that processes invoices, contracts and reports with 97% field accuracy.',
-    'description',
-    'In Production',
-    (SELECT id FROM domains WHERE name = 'AI/ML'),
-    (SELECT id FROM teams WHERE name = 'DocFlow Squad')
-  ),
-  (
-    'Edge IoT Gateway',
-    'Low-latency edge computing gateway for collecting and processing sensor data across manufacturing floors.',
-    'sensors',
-    'Pilot',
-    (SELECT id FROM domains WHERE name = 'IoT'),
-    (SELECT id FROM teams WHERE name = 'Edge Pioneers')
-  ),
-  (
-    'Customer Churn Predictor',
-    'Machine learning model that identifies at-risk customer accounts 30 days before churn with 89% recall.',
-    'trending_down',
-    'Testing Phase',
-    (SELECT id FROM domains WHERE name = 'Data Science'),
-    (SELECT id FROM teams WHERE name = 'Insight Crew')
-  ),
-  (
-    'Zero-Trust Access Mesh',
-    'Identity-aware micro-segmentation layer that replaces legacy VPN with per-request authentication.',
-    'shield',
-    'Pilot',
-    (SELECT id FROM domains WHERE name = 'Cloud'),
-    (SELECT id FROM teams WHERE name = 'SecOps Alpha')
-  ),
-  (
-    'Real-time Fraud Detector',
-    'Streaming analytics engine scoring payment transactions in under 50ms with adaptive threshold tuning.',
-    'security',
+    'Dashboard Metrics POC',
+    'This POC focuses on building an interactive analytics dashboard that provides real-time insights into key business and operational metrics. It highlights dynamic data visualization, customizable widgets, and performance tracking capabilities. The solution is designed to help stakeholders quickly interpret trends, monitor KPIs, and make data-driven decisions through a clean and intuitive interface.',
+    'dashboard',
     'In Production',
     (SELECT id FROM domains WHERE name = 'Data Science'),
-    (SELECT id FROM teams WHERE name = 'Risk Engine')
+    (SELECT id FROM teams WHERE name = 'Metrics Crew'),
+    'https://github.com/Chaman-Kanini/Dashboard_Metrics',
+    'https://dashboard-metrics-liart.vercel.app/'
   ),
   (
-    'Digital Twin Simulator',
-    'Physics-based digital twin of factory floor robots enabling predictive maintenance scheduling.',
-    'precision_manufacturing',
-    'Ideation',
-    (SELECT id FROM domains WHERE name = 'IoT'),
-    (SELECT id FROM teams WHERE name = 'Twin Works')
+    'CPP to Web Modernization POC',
+    'This Proof of Concept demonstrates the modernization of legacy C++-based systems into a web-based application. It showcases how core functionalities can be transformed into a responsive, browser-accessible interface while preserving existing business logic. The POC highlights improved accessibility, enhanced user experience, and the potential for integrating modern technologies, making legacy systems more scalable and easier to maintain.',
+    'code',
+    'In Production',
+    (SELECT id FROM domains WHERE name = 'Modernization'),
+    (SELECT id FROM teams WHERE name = 'Modernization Team'),
+    'https://github.com/kanini/Cpp_Web_Modernization.git',
+    'https://cpp-web-frontend.vercel.app/login'
   )
 ON CONFLICT DO NOTHING;
 
 -- ---- POC tags ----
--- Predictive Inventory Engine → AI/ML, Supply Chain
+-- Loan Closing & Loan Origination POC → FinTech, Loan Processing, Workflow Automation
 INSERT INTO poc_tags (poc_id, tag_id)
 SELECT p.id, t.id FROM pocs p, tags t
-WHERE p.title = 'Predictive Inventory Engine' AND t.name IN ('AI/ML', 'Supply Chain')
+WHERE p.title = 'Loan Closing & Loan Origination POC' AND t.name IN ('FinTech', 'Loan Processing', 'Workflow Automation')
 ON CONFLICT DO NOTHING;
 
--- Multi-Cloud Orchestrator → Cloud, DevOps
+-- Dashboard Metrics POC → Analytics, Dashboard, Data Visualization
 INSERT INTO poc_tags (poc_id, tag_id)
 SELECT p.id, t.id FROM pocs p, tags t
-WHERE p.title = 'Multi-Cloud Orchestrator' AND t.name IN ('Cloud', 'DevOps')
+WHERE p.title = 'Dashboard Metrics POC' AND t.name IN ('Analytics', 'Dashboard', 'Data Visualization')
 ON CONFLICT DO NOTHING;
 
--- Immutable Audit Ledger → Blockchain, FinTech
+-- CPP to Web Modernization POC → Legacy Modernization, C++, Web
 INSERT INTO poc_tags (poc_id, tag_id)
 SELECT p.id, t.id FROM pocs p, tags t
-WHERE p.title = 'Immutable Audit Ledger' AND t.name IN ('Blockchain', 'FinTech')
-ON CONFLICT DO NOTHING;
-
--- Smart Document Parser → AI/ML, Automation
-INSERT INTO poc_tags (poc_id, tag_id)
-SELECT p.id, t.id FROM pocs p, tags t
-WHERE p.title = 'Smart Document Parser' AND t.name IN ('AI/ML', 'Automation')
-ON CONFLICT DO NOTHING;
-
--- Edge IoT Gateway → IoT, Manufacturing
-INSERT INTO poc_tags (poc_id, tag_id)
-SELECT p.id, t.id FROM pocs p, tags t
-WHERE p.title = 'Edge IoT Gateway' AND t.name IN ('IoT', 'Manufacturing')
-ON CONFLICT DO NOTHING;
-
--- Customer Churn Predictor → Data Science, CRM
-INSERT INTO poc_tags (poc_id, tag_id)
-SELECT p.id, t.id FROM pocs p, tags t
-WHERE p.title = 'Customer Churn Predictor' AND t.name IN ('Data Science', 'CRM')
-ON CONFLICT DO NOTHING;
-
--- Zero-Trust Access Mesh → Cloud, Security
-INSERT INTO poc_tags (poc_id, tag_id)
-SELECT p.id, t.id FROM pocs p, tags t
-WHERE p.title = 'Zero-Trust Access Mesh' AND t.name IN ('Cloud', 'Security')
-ON CONFLICT DO NOTHING;
-
--- Real-time Fraud Detector → Data Science, FinTech
-INSERT INTO poc_tags (poc_id, tag_id)
-SELECT p.id, t.id FROM pocs p, tags t
-WHERE p.title = 'Real-time Fraud Detector' AND t.name IN ('Data Science', 'FinTech')
-ON CONFLICT DO NOTHING;
-
--- Digital Twin Simulator → IoT, Digital Twin
-INSERT INTO poc_tags (poc_id, tag_id)
-SELECT p.id, t.id FROM pocs p, tags t
-WHERE p.title = 'Digital Twin Simulator' AND t.name IN ('IoT', 'Digital Twin')
+WHERE p.title = 'CPP to Web Modernization POC' AND t.name IN ('Legacy Modernization', 'C++', 'Web')
 ON CONFLICT DO NOTHING;
 
 -- ---- Featured POC ----
-INSERT INTO featured_pocs (title, subtitle, description, deployment_status, active) VALUES
+INSERT INTO featured_pocs (poc_id, title, subtitle, description, deployment_status, active) VALUES
   (
-    'Real-time Vision Analytics',
+    (SELECT id FROM pocs WHERE title = 'Loan Closing & Loan Origination POC' LIMIT 1),
+    'Loan Closing & Loan Origination',
     'Featured Spotlight',
-    'The most successful POC of Q3. Using computer vision to monitor assembly line quality in real-time, reducing defects by 18% in our Munich facility. Now scaling to all global plants.',
-    'Global Rollout Active',
+    'Our most impactful POC — a complete digital workflow for loan origination and closing. Streamlined data entry, workflow automation, and an improved user experience that enables faster processing and reduced manual intervention.',
+    'Live on Production',
     true
   )
 ON CONFLICT DO NOTHING;
 
 INSERT INTO featured_poc_stats (featured_poc_id, value, label) VALUES
-  ((SELECT id FROM featured_pocs WHERE title = 'Real-time Vision Analytics' LIMIT 1), '18%', 'Defect Reduction'),
-  ((SELECT id FROM featured_pocs WHERE title = 'Real-time Vision Analytics' LIMIT 1), '40ms', 'Latency')
+  ((SELECT id FROM featured_pocs WHERE title = 'Loan Closing & Loan Origination' LIMIT 1), '60%', 'Faster Processing'),
+  ((SELECT id FROM featured_pocs WHERE title = 'Loan Closing & Loan Origination' LIMIT 1), '3x', 'Efficiency Gain')
 ON CONFLICT DO NOTHING;
 
 -- ---- Hero stats ----
